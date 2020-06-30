@@ -9,6 +9,7 @@ namespace {{ ProjectInfo.FullName }}.Web.Pages.{{ pagesNamespace }}{{ EntityInfo
 {
     public class Create{{ EntityInfo.Name }}ViewModel
     {
+        {{~typePrimitive = ["int","object","short","char","float","double","bool","string","sbyte","decimal","uint","long","ulong","ushort","dynamic","Boolean","Byte","Int16","UInt16","Int32","UInt32","Int64","UInt64","Single", "DateTime"] ~}}
         {{~ for prop in EntityInfo.Properties ~}}
         {{~ if prop | abp.is_ignore_property; continue; end ~}}
         {{~ if !Option.SkipLocalization ~}}
@@ -31,9 +32,12 @@ namespace {{ ProjectInfo.FullName }}.Web.Pages.{{ pagesNamespace }}{{ EntityInfo
         prop.Type | string.replace stFind stAppendAtEnd
 
         }} Create{{ prop.Name }}ViewModel { get; set; }
+        
         {{~ else ~}}
-        public {{ prop.Type}} {{ prop.Name }} { get; set; }
-        {{~end ~}}
+        {{~ validateOfPrimite = typePrimitive | array.contains prop.Type ~}}
+        {{~ if !validateOfPrimite ~}}
+        public {{ prop.Name }}.ViewModels.Create{{ prop.Type }}ViewModel Create {{ prop.Name }}ViewModel { get; set; }
+        {{~ end ~}}
         {{~ if !for.last ~}}
 
         {{~ end ~}}
