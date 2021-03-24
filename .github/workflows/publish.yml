@@ -1,13 +1,4 @@
-name: publish to nuget
-on:
-  push:
-    branches:
-      - master
-      - main
-jobs:
-  publish:
-    runs-on: windows-latest
-    steps:
+
       - uses: actions/checkout@v2
       - uses: NuGet/setup-nuget@v1.0.5
 
